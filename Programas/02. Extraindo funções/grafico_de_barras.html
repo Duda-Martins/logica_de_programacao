@@ -1,0 +1,47 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+
+    var serie2015 = [50, 25, 20, 5];
+    var serie2016 = [65, 20, 13, 2];
+    var cores = ['blue', 'green', 'yellow', 'red'];
+
+    function desenhaRetangulo  (x, y, largura, altura, cor) {
+        var tela = document.querySelector ('canvas');
+        var pincel = tela.getContext ('2d');
+
+        pincel.fillStyle = cor;
+        pincel.fillRect (x,y, largura, altura);
+        pincel.strokeStyle = 'black';
+        pincel.strokeRect (x,y, largura, altura);
+    }
+
+    function desenhaBarra (x, y, serie, cores, texto) {
+
+        var soma = 0;
+        for (var posicao = 0; posicao < serie.length; posicao++){
+             
+             desenhaRetangulo(x, soma + y, 50, serie[posicao], cores[posicao]);
+             soma = soma + serie[posicao];
+             
+        }
+       
+    }
+
+    function desenhaTexto (x, y, texto) {
+        var tela = document.querySelector ('canvas');
+        var pincel = tela.getContext ('2d');
+
+        pincel.font = '15px Georgia';
+        pincel.fillStyle = 'black';
+        pincel.fillText (texto, x, y);
+    }
+
+    desenhaTexto (58, 40, "2015");
+    desenhaTexto (158, 40, "2016");
+
+    desenhaBarra (50, 50, serie2015, cores, '2015');
+    desenhaBarra (150, 50, serie2016, cores, '2016');
+    //Dentro da função você precisa implementar um laço e nele precisa recuperar o valor da serie, que nada mais é do que a altura do retângulo:
+
+</script>

@@ -1,0 +1,134 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+
+    var tela = document.querySelector('canvas');
+    var pincel = tela.getContext('2d');
+    pincel.fillStyle = 'lightgray';
+    pincel.fillRect(0, 0, 600, 400);
+
+    var x = 20;
+    var y = 20;
+
+    // códigos do teclado
+    var esquerda = 37;
+    var cima = 38;
+    var direita = 39;
+    var baixo = 40;
+
+    // taxa de incremento
+    var taxa = 10; 
+
+    // reiniciar o jogo
+    var reiniciaJogo = false;
+
+    function desenhaCirculo(x, y, raio) {
+
+        pincel.fillStyle = 'blue';
+        pincel.beginPath();
+        pincel.arc(x, y, raio, 0, 2 * Math.PI);
+        pincel.fill();
+    }
+
+    function limpaTela() {
+
+        pincel.clearRect(0, 0, 600, 400);
+    }
+
+    function atualizaTela() {
+
+        if(reiniciaJogo){
+
+            x = 20;
+            y = 20;
+            reiniciaJogo = false;
+
+        } else {
+
+            limpaTela();
+
+            desenhaObstaculos();
+
+            desenhaCirculo(x, y, 10);
+        }
+    }
+
+    setInterval(atualizaTela, 20);
+
+    function leDoTeclado(evento) {
+
+        if(evento.keyCode == cima) {
+
+            y = y - taxa;
+
+        } else if (evento.keyCode == baixo) {
+
+            y = y + taxa;
+
+        } else if (evento.keyCode == esquerda) {
+
+            x = x - taxa;
+
+        } else if (evento.keyCode == direita) {
+
+            x = x + taxa;
+        }
+
+        gameOver(x, y);
+
+    }
+
+    document.onkeydown = leDoTeclado;
+
+    function desenhaRetangulo(x, y, tamnhoLadoX, tamanhoLadoY, cor) {
+
+        pincel.fillStyle = cor;
+        pincel.fillRect(x, y, tamnhoLadoX, tamanhoLadoY);
+
+    }
+
+    function desenhaObstaculos(){
+
+        //Paredes
+        desenhaRetangulo(100, 0, 20, 300, "black");
+        desenhaRetangulo(200, 100, 20, 300, "black");
+        desenhaRetangulo(300, 0, 20, 300, "black");
+        desenhaRetangulo(400, 100, 20, 300, "black");
+        desenhaRetangulo(500, 0, 20, 300, "black");
+        desenhaRetangulo(580, 100, 20, 300, "black");
+
+        //linha de chegada
+        desenhaRetangulo(580, 0, 20, 100, "black");
+        desenhaRetangulo(580, 0, 10, 100, "lightgray");
+
+    }
+
+    function gameOver(x, y){
+        //tocando no preto
+        if((x >= 100 && x <= 120) || (x >= 300 && x <= 320) || (x >= 500 && x <= 520)) {
+
+            if(y <= 300){
+
+                alert ("Você perdeu!!");
+                reiniciaJogo = true;
+            }
+        }
+
+        if((x >= 200 && x <= 220) || (x >= 400 && x <= 420) || x >= 580){
+
+           if(y >= 100){            
+
+                alert ("Você perdeu!!");
+                reiniciaJogo = true;
+            } 
+        }         
+
+        //tocando na linha de chegada
+        if(x == 580 && y <= 100){
+
+            alert("Você ganhou!!!");
+            reiniciaJogo = true;
+        }
+    }
+
+</script>
